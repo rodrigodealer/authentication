@@ -1,4 +1,0 @@
-Auth
-====
-
-** TODO: Add description **

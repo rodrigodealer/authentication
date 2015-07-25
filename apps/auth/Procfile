@@ -1,0 +1,1 @@
+ web: mix run --no-halt lib/rest_api.ex

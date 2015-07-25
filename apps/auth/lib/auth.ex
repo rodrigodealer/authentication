@@ -1,19 +1,18 @@
 defmodule Auth do
-  use Application
 
-  # See http://elixir-lang.org/docs/stable/elixir/Application.html
-  # for more information on OTP Applications
-  def start(_type, _args) do
-    import Supervisor.Spec, warn: false
+  def init(options) do
+    options
+  end
 
-    children = [
-      # Define workers and child supervisors to be supervised
-      # worker(Auth.Worker, [arg1, arg2, arg3])
-    ]
-
-    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Auth.Supervisor]
-    Supervisor.start_link(children, opts)
+  def call(conn, _opts) do
+    AppRouter.call(conn, AppRouter.init([]))
   end
 end
+
+port = System.get_env("PORT")
+if port == nil do
+	port = "4000"
+end
+
+IO.puts "Running RestApi with Cowboy on http://localhost:#{port}"
+Plug.Adapters.Cowboy.http Auth, [], port: String.to_integer(port)
